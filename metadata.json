@@ -1,0 +1,6 @@
+{
+  "name": "VAULT — Intelligent, Trust-First Digital Banking",
+  "description": "VAULT transforms everyday banking data into clear, transparent and actionable financial insights while keeping users in control.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

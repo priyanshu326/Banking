@@ -1,0 +1,134 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User account profile and preferences",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique user ID" },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "format": "email", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "avatar": { "type": "string", "maxLength": 500 },
+        "accountNumberMasked": { "type": "string", "maxLength": 50 },
+        "tier": { "type": "string", "maxLength": 30 },
+        "kycStatus": { "type": "string", "maxLength": 30 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "name", "email"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Banking transaction ledger entry",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "merchant": { "type": "string", "maxLength": 120 },
+        "amount": { "type": "number" },
+        "category": { "type": "string", "maxLength": 50 },
+        "type": { "type": "string", "enum": ["debit", "credit"] },
+        "timestamp": { "type": "string", "maxLength": 50 },
+        "balanceBefore": { "type": "number" },
+        "balanceAfter": { "type": "number" },
+        "referenceNumber": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "enum": ["completed", "pending", "flagged", "failed"] },
+        "isUnusual": { "type": "boolean" },
+        "paymentMethod": { "type": "string", "maxLength": 50 },
+        "note": { "type": "string", "maxLength": 250 }
+      },
+      "required": ["id", "userId", "merchant", "amount", "category", "type", "timestamp", "balanceBefore", "balanceAfter", "referenceNumber", "status"]
+    },
+    "Commitment": {
+      "title": "Commitment",
+      "description": "Recurring mandate, subscription, or upcoming bill",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string", "maxLength": 100 },
+        "amount": { "type": "number" },
+        "dueDate": { "type": "string", "maxLength": 50 },
+        "daysRemaining": { "type": "number" },
+        "autoDebit": { "type": "boolean" },
+        "category": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "maxLength": 30 }
+      },
+      "required": ["id", "userId", "title", "amount", "dueDate"]
+    },
+    "SavingsGoal": {
+      "title": "SavingsGoal",
+      "description": "User allocated savings goal",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string", "maxLength": 100 },
+        "targetAmount": { "type": "number" },
+        "currentAmount": { "type": "number" },
+        "targetDate": { "type": "string", "maxLength": 50 },
+        "monthlyContribution": { "type": "number" },
+        "category": { "type": "string", "maxLength": 50 },
+        "isPaused": { "type": "boolean" },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "userId", "name", "targetAmount", "currentAmount"]
+    },
+    "SharedExpense": {
+      "title": "SharedExpense",
+      "description": "Group expense split tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string", "maxLength": 120 },
+        "totalAmount": { "type": "number" },
+        "date": { "type": "string", "maxLength": 50 },
+        "settled": { "type": "boolean" }
+      },
+      "required": ["id", "userId", "title", "totalAmount"]
+    },
+    "NotificationItem": {
+      "title": "NotificationItem",
+      "description": "User notification alert",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string", "maxLength": 120 },
+        "message": { "type": "string", "maxLength": 300 },
+        "timestamp": { "type": "string", "maxLength": 50 },
+        "read": { "type": "boolean" },
+        "type": { "type": "string", "maxLength": 30 },
+        "actionRoute": { "type": "string", "maxLength": 100 }
+      },
+      "required": ["id", "userId", "title", "message", "timestamp", "read", "type"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile and account settings"
+    },
+    "/transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Financial ledger transactions belonging to user"
+    },
+    "/commitments/{commitmentId}": {
+      "schema": "Commitment",
+      "description": "Upcoming bills, subscriptions, and standing mandates"
+    },
+    "/savingsGoals/{goalId}": {
+      "schema": "SavingsGoal",
+      "description": "User allocated savings goals and targets"
+    },
+    "/sharedExpenses/{expenseId}": {
+      "schema": "SharedExpense",
+      "description": "Shared expense splits and settlement records"
+    },
+    "/notifications/{notificationId}": {
+      "schema": "NotificationItem",
+      "description": "Personal account alerts and notifications"
+    }
+  }
+}
